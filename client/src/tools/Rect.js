@@ -1,4 +1,4 @@
-import Tool from "./Tool";
+import Tool from "./Tool.ts";
 
 export default class Rect extends Tool {
   constructor(canvas, socket, id) {

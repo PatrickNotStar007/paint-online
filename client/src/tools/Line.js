@@ -1,4 +1,4 @@
-import Tool from "./Tool";
+import Tool from "./Tool.ts";
 
 export default class Line extends Tool {
   constructor(canvas) {

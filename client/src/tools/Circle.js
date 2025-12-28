@@ -1,4 +1,4 @@
-import Tool from "./Tool";
+import Tool from "./Tool.ts";
 
 export default class Circle extends Tool {
   constructor(canvas) {
