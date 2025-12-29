@@ -1,8 +1,8 @@
 export default class Tool {
-  canvas: HTMLCanvasElement;
-  socket: WebSocket;
-  id: number;
-  ctx: CanvasRenderingContext2D;
+  protected canvas: HTMLCanvasElement;
+  protected socket: WebSocket;
+  protected id: number;
+  protected ctx: CanvasRenderingContext2D;
 
   constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: number) {
     this.canvas = canvas;

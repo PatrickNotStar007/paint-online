@@ -1,12 +1,12 @@
 import React from "react";
 import "../styles/toolbar.scss";
 import toolState from "../store/toolState";
-import Brush from "../tools/Brush";
+import Brush from "../tools/Brush.ts";
 import canvasState from "../store/canvasState";
-import Rect from "../tools/Rect";
-import Circle from "../tools/Circle";
-import Eraser from "../tools/Eraser";
-import Line from "../tools/Line";
+import Rect from "../tools/Rect.ts";
+import Circle from "../tools/Circle.ts";
+import Eraser from "../tools/Eraser.ts";
+import Line from "../tools/Line.ts";
 
 const Toolbar = () => {
   const changeColor = (e) => {

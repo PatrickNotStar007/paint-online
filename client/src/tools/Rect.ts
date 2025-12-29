@@ -1,7 +1,14 @@
 import Tool from "./Tool.ts";
 
 export default class Rect extends Tool {
-  constructor(canvas, socket, id) {
+  protected width: number = 0;
+  protected height: number = 0;
+  protected saved: string = "";
+  protected mouseDown: boolean = false;
+  protected startX: number = 0;
+  protected startY: number = 0;
+
+  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: number) {
     super(canvas, socket, id);
     this.listen();
   }
@@ -12,7 +19,7 @@ export default class Rect extends Tool {
     this.canvas.onmouseup = (e) => this.mouseUpHandler(e);
   }
 
-  mouseUpHandler(e) {
+  mouseUpHandler(e: MouseEvent) {
     this.mouseDown = false;
     this.socket.send(
       JSON.stringify({
@@ -29,24 +36,28 @@ export default class Rect extends Tool {
       })
     );
   }
-  mouseDownHandler(e) {
+
+  mouseDownHandler(e: MouseEvent) {
     this.mouseDown = true;
     this.ctx.beginPath();
-    this.startX = e.pageX - e.target.offsetLeft;
-    this.startY = e.pageY - e.target.offsetTop;
+    const target = <HTMLElement>e.target;
+    this.startX = e.pageX - target.offsetLeft;
+    this.startY = e.pageY - target.offsetTop;
     this.saved = this.canvas.toDataURL();
   }
-  mouseMoveHandler(e) {
+
+  mouseMoveHandler(e: MouseEvent) {
     if (this.mouseDown) {
-      let currentX = e.pageX - e.target.offsetLeft;
-      let currentY = e.pageY - e.target.offsetTop;
+      const target = <HTMLElement>e.target;
+      let currentX = e.pageX - target.offsetLeft;
+      let currentY = e.pageY - target.offsetTop;
       this.width = currentX - this.startX;
       this.height = currentY - this.startY;
       this.draw(this.startX, this.startY, this.width, this.height);
     }
   }
 
-  draw(x, y, w, h) {
+  draw(x: number, y: number, w: number, h: number) {
     const img = new Image();
     img.src = this.saved;
     img.onload = () => {
@@ -59,7 +70,14 @@ export default class Rect extends Tool {
     };
   }
 
-  static staticDraw(ctx, x, y, w, h, color) {
+  static staticDraw(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    color: string
+  ) {
     ctx.fillStyle = color;
     ctx.beginPath();
     ctx.rect(x, y, w, h);

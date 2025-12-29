@@ -1,8 +1,13 @@
 import Tool from "./Tool.ts";
 
 export default class Circle extends Tool {
-  constructor(canvas) {
-    super(canvas);
+  protected mouseDown = false;
+  protected startX = 0;
+  protected startY = 0;
+  protected saved = "";
+
+  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: number) {
+    super(canvas, socket, id);
     this.listen();
   }
 
@@ -12,31 +17,41 @@ export default class Circle extends Tool {
     this.canvas.onmouseup = (e) => this.mouseUpHandler(e);
   }
 
-  mouseUpHandler(e) {
+  mouseUpHandler(e: MouseEvent) {
     this.mouseDown = false;
   }
-  mouseDownHandler(e) {
+
+  mouseDownHandler(e: MouseEvent) {
     this.mouseDown = true;
     this.ctx.beginPath();
-    this.startX = e.pageX - e.target.offsetLeft;
-    this.startY = e.pageY - e.target.offsetTop;
+    const target = <HTMLElement>e.target;
+    this.startX = e.pageX - target.offsetLeft;
+    this.startY = e.pageY - target.offsetTop;
     this.saved = this.canvas.toDataURL();
   }
-  mouseMoveHandler(e) {
-    if (this.mouseDown) {
-      let currentX = e.pageX - e.target.offsetLeft;
-      let currentY = e.pageY - e.target.offsetTop;
 
-      this.radius = Math.sqrt(
+  mouseMoveHandler(e: MouseEvent) {
+    if (this.mouseDown) {
+      const target = <HTMLElement>e.target;
+      let currentX = e.pageX - target.offsetLeft;
+      let currentY = e.pageY - target.offsetTop;
+
+      const radius = Math.sqrt(
         Math.pow(currentX - this.startX, 2) +
           Math.pow(currentY - this.startY, 2)
       );
 
-      this.draw(this.startX, this.startY, this.radius, 0, Math.PI * 2);
+      this.draw(this.startX, this.startY, radius, 0, Math.PI * 2);
     }
   }
 
-  draw(x, y, radius, startAngle, endAngle) {
+  draw(
+    x: number,
+    y: number,
+    radius: number,
+    startAngle: number,
+    endAngle: number
+  ) {
     const img = new Image();
     img.src = this.saved;
     img.onload = () => {

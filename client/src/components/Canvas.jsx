@@ -2,12 +2,12 @@ import React, { useEffect, useRef } from "react";
 import "../styles/canvas.scss";
 import { observer } from "mobx-react-lite";
 import canvasState from "../store/canvasState";
-import Brush from "../tools/Brush";
+import Brush from "../tools/Brush.ts";
 import toolState from "../store/toolState";
 import { Button, Modal } from "react-bootstrap";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import Rect from "../tools/Rect";
+import Rect from "../tools/Rect.ts";
 import axios from "axios";
 
 const Canvas = observer(() => {
