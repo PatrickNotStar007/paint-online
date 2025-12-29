@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import "../styles/canvas.scss";
 import { observer } from "mobx-react-lite";
-import canvasState from "../store/canvasState";
+import canvasState from "../store/canvasState.ts";
 import Brush from "../tools/Brush.ts";
 import toolState from "../store/toolState";
 import { Button, Modal } from "react-bootstrap";
