@@ -3,7 +3,7 @@ import "../styles/canvas.scss";
 import { observer } from "mobx-react-lite";
 import canvasState from "../store/canvasState.ts";
 import Brush from "../tools/Brush.ts";
-import toolState from "../store/toolState";
+import toolState from "../store/toolState.ts";
 import { Button, Modal } from "react-bootstrap";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
