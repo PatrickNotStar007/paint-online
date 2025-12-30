@@ -8,59 +8,62 @@ import Circle from "../tools/Circle.ts";
 import Eraser from "../tools/Eraser.ts";
 import Line from "../tools/Line.ts";
 
+type ToolConstructor = new (
+  canvas: HTMLCanvasElement,
+  socket: WebSocket,
+  id: number
+) => Brush | Rect | Circle | Line;
+
 const Toolbar = () => {
-  const changeColor = (e) => {
+  const changeColor = (e: React.ChangeEvent<HTMLInputElement>) => {
     toolState.setFillColor(e.target.value);
     toolState.setStrokeColor(e.target.value);
   };
 
   const download = () => {
-    const dataUrl = canvasState.canvas.toDataURL();
-    const a = document.createElement("a");
-    a.href = dataUrl;
-    a.download = canvasState.sessionId + ".jpg";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    if (canvasState.canvas) {
+      const dataUrl = canvasState.canvas.toDataURL();
+      const a = document.createElement("a");
+      a.href = dataUrl;
+      a.download = canvasState.sessionId + ".jpg";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  };
+
+  const chooseToolHandler = (ToolClass: ToolConstructor) => {
+    const { canvas, socket, sessionId } = canvasState;
+    if (!canvas || !socket || !sessionId) return;
+
+    toolState.setTool(new ToolClass(canvas, socket, sessionId));
   };
 
   return (
     <div className="toolbar">
       <button
         className="toolbar__btn brush"
-        onClick={() =>
-          toolState.setTool(
-            new Brush(
-              canvasState.canvas,
-              canvasState.socket,
-              canvasState.sessionId
-            )
-          )
-        }
+        onClick={() => chooseToolHandler(Brush)}
       ></button>
+
       <button
         className="toolbar__btn rect"
-        onClick={() =>
-          toolState.setTool(
-            new Rect(
-              canvasState.canvas,
-              canvasState.socket,
-              canvasState.sessionId
-            )
-          )
-        }
+        onClick={() => chooseToolHandler(Rect)}
       ></button>
+
       <button
         className="toolbar__btn circle"
-        onClick={() => toolState.setTool(new Circle(canvasState.canvas))}
+        onClick={() => chooseToolHandler(Circle)}
       ></button>
+
       <button
         className="toolbar__btn eraser"
-        onClick={() => toolState.setTool(new Eraser(canvasState.canvas))}
+        onClick={() => chooseToolHandler(Eraser)}
       ></button>
+
       <button
         className="toolbar__btn line"
-        onClick={() => toolState.setTool(new Line(canvasState.canvas))}
+        onClick={() => chooseToolHandler(Line)}
       ></button>
       <input
         onChange={(e) => changeColor(e)}
@@ -71,10 +74,12 @@ const Toolbar = () => {
         className="toolbar__btn undo"
         onClick={() => canvasState.undo()}
       ></button>
+
       <button
         className="toolbar__btn redo"
         onClick={() => canvasState.redo()}
       ></button>
+
       <button className="toolbar__btn save" onClick={() => download()}></button>
     </div>
   );

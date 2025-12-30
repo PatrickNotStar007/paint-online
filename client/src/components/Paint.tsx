@@ -1,9 +1,9 @@
 import React from "react";
-import Toolbar from "./Toolbar";
+import Toolbar from "./Toolbar.tsx";
 import SettingBar from "./SettingBar";
 import Canvas from "./Canvas";
 
-function Paint() {
+const Paint: React.FC = () => {
   return (
     <div>
       <Toolbar />
@@ -11,6 +11,6 @@ function Paint() {
       <Canvas />
     </div>
   );
-}
+};
 
 export default Paint;

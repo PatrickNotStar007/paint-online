@@ -1,12 +1,9 @@
 import React from "react";
 import "./styles/app.scss";
-import Toolbar from "./components/Toolbar";
-import SettingBar from "./components/SettingBar";
-import Canvas from "./components/Canvas";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Paint from "./components/Paint";
+import Paint from "./components/Paint.tsx";
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <BrowserRouter>
       <div className="app">
