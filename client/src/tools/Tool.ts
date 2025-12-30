@@ -1,10 +1,10 @@
 export default class Tool {
   protected canvas: HTMLCanvasElement;
   protected socket: WebSocket;
-  protected id: number;
+  protected id: string;
   protected ctx: CanvasRenderingContext2D;
 
-  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: number) {
+  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
     this.canvas = canvas;
     this.socket = socket;
     this.id = id;

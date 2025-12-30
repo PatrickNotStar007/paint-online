@@ -3,11 +3,11 @@ import { makeAutoObservable } from "mobx";
 class CanvasState {
   tool: any = null; // TODO: исправить
   socket: WebSocket | null = null;
-  sessionId: number | null = null;
+  sessionId: string | null = null;
   canvas: HTMLCanvasElement | null = null;
-  ctx: CanvasRenderingContext2D | null = null;
-  undoList: string[] = [];
-  redoList: string[] = [];
+  protected ctx: CanvasRenderingContext2D | null = null;
+  protected undoList: string[] = [];
+  protected redoList: string[] = [];
   username = "";
 
   constructor() {
@@ -18,7 +18,7 @@ class CanvasState {
     this.socket = socket;
   }
 
-  setSessionId(id: number) {
+  setSessionId(id: string) {
     this.sessionId = id;
   }
 
@@ -26,9 +26,11 @@ class CanvasState {
     this.username = username;
   }
 
-  setCanvas(canvas: HTMLCanvasElement) {
+  setCanvas(canvas: HTMLCanvasElement | null) {
     this.canvas = canvas;
-    this.ctx = this.canvas.getContext("2d");
+    if (this.canvas) {
+      this.ctx = this.canvas.getContext("2d");
+    }
   }
 
   pushToUndo(data: string) {

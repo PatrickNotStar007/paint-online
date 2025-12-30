@@ -11,43 +11,40 @@ import Rect from "../tools/Rect.ts";
 import axios from "axios";
 
 const Canvas = observer(() => {
-  const canvasRef = useRef();
-  const usernameRef = useRef();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
   const [modal, setModal] = useState(true);
   const params = useParams();
 
   useEffect(() => {
-    canvasState.setCanvas(canvasRef.current);
-    const ctx = canvasRef.current.getContext("2d");
+    const canvas = canvasRef.current;
+    canvasState.setCanvas(canvas);
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
     axios
       .get(`http://localhost:5000/image?id=${params.id}`)
       .then((response) => {
         const img = new Image();
         img.src = response.data;
         img.onload = () => {
-          ctx.clearRect(
-            0,
-            0,
-            canvasRef.current.width,
-            canvasRef.current.height
-          );
-          ctx.drawImage(
-            img,
-            0,
-            0,
-            canvasRef.current.width,
-            canvasRef.current.height
-          );
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         };
       });
   }, []);
 
   useEffect(() => {
-    if (canvasState.username) {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    if (canvasState.username && params.id) {
       const socket = new WebSocket("ws://localhost:5000/");
       canvasState.setSocket(socket);
       canvasState.setSessionId(params.id);
-      toolState.setTool(new Brush(canvasRef.current, socket, params.id));
+      toolState.setTool(new Brush(canvas, socket, params.id));
       socket.onopen = () => {
         console.log("Подключение установлено");
 
@@ -74,9 +71,14 @@ const Canvas = observer(() => {
     }
   }, [canvasState.username]);
 
-  const drawHandler = (msg) => {
+  const drawHandler = (msg: any) => {
     const figure = msg.figure;
+
+    if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
+
+    if (!ctx) return;
+
     switch (figure.type) {
       case "brush":
         Brush.draw(ctx, figure.x, figure.y);
@@ -98,6 +100,8 @@ const Canvas = observer(() => {
   };
 
   const mouseDownHandler = () => {
+    if (!canvasRef.current) return;
+
     canvasState.pushToUndo(canvasRef.current.toDataURL());
     axios
       .post(`http://localhost:5000/image?id=${params.id}`, {
@@ -107,6 +111,7 @@ const Canvas = observer(() => {
   };
 
   const connectHandler = () => {
+    if (!usernameRef.current) return;
     canvasState.setUsername(usernameRef.current.value);
     setModal(false);
   };

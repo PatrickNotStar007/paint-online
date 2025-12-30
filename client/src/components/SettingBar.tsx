@@ -7,7 +7,7 @@ const SettingBar = () => {
     <div className="settingbar">
       <label htmlFor="line-width">Толщина линии</label>
       <input
-        onChange={(e) => toolState.setLineWidth(e.target.value)}
+        onChange={(e) => toolState.setLineWidth(parseInt(e.target.value, 10))}
         style={{ margin: "0 10px" }}
         id="line-width"
         type="number"

@@ -3,7 +3,7 @@ import Tool from "./Tool.ts";
 export default class Brush extends Tool {
   protected mouseDown = false;
 
-  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: number) {
+  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
     super(canvas, socket, id);
     this.listen();
   }

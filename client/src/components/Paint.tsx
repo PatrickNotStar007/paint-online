@@ -1,7 +1,7 @@
 import React from "react";
 import Toolbar from "./Toolbar.tsx";
-import SettingBar from "./SettingBar";
-import Canvas from "./Canvas";
+import SettingBar from "./SettingBar.tsx";
+import Canvas from "./Canvas.tsx";
 
 const Paint: React.FC = () => {
   return (
