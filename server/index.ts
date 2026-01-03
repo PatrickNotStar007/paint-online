@@ -1,15 +1,12 @@
-import type { UserRequest } from "../shared/types.ts";
+import type { UserRequest } from "../shared/types";
 import type { Request, Response } from "express";
 import type { WebSocket } from "ws";
 
 import express from "express";
-import fs from "fs";
-import path from "path";
+
 import cors from "cors";
 import expressWs from "express-ws";
-
-const currentDir = process.cwd();
-const __dirname = path.join(currentDir);
+import drawingRouter from "./routes/drawingRouter";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -41,30 +38,7 @@ app.use(express.json());
   });
 });
 
-app.post("/image", (req: Request, res: Response) => {
-  const data = req.body.img.replace(`data:image/png;base64,`, "");
-
-  fs.writeFileSync(
-    path.resolve(__dirname, "files", `${req.query.id}.jpg`),
-    data,
-    "base64"
-  );
-
-  return res.status(200).json({ message: "Загружено" });
-});
-
-app.get("/image", (req: Request, res: Response) => {
-  try {
-    const file = fs.readFileSync(
-      path.resolve(__dirname, "files", `${req.query.id}.jpg`)
-    );
-    const data = `data:image/png;base64,` + file.toString("base64");
-    res.json(data);
-  } catch (e) {
-    console.log(e);
-    // return res.status(500).json("error");
-  }
-});
+app.use("/", drawingRouter);
 
 app.listen(PORT, () => console.log(PORT + " is working"));
 

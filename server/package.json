@@ -1,10 +1,11 @@
 {
   "name": "server",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "dev": "nodemon index.ts"
+    "dev": "tsx index.ts"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,7 @@
     "@types/express": "^5.0.6",
     "@types/express-ws": "^3.0.6",
     "nodemon": "^3.1.11",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0"
   }
 }
