@@ -26,15 +26,3 @@ export interface FinishFigure extends BaseFigure {
 }
 
 export type Figure = BrushFigure | RectFigure | FinishFigure;
-
-export interface UserRequest extends Request {
-  id: string;
-  method: "connection" | "draw";
-  userName?: string;
-  figure?: Figure;
-}
-
-export interface ImageRequest extends Request {
-  id: string;
-  img: string;
-}

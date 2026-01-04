@@ -6,7 +6,7 @@ export default class Line extends Tool {
   protected startY = 0;
   protected saved = "";
 
-  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: number) {
+  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
     super(canvas, socket, id);
     this.listen();
   }

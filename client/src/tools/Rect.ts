@@ -8,7 +8,7 @@ export default class Rect extends Tool {
   protected startX: number = 0;
   protected startY: number = 0;
 
-  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: number) {
+  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
     super(canvas, socket, id);
     this.listen();
   }
