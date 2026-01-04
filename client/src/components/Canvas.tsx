@@ -7,8 +7,8 @@ import toolState from "../store/toolState.ts";
 import { Button, Modal } from "react-bootstrap";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { drawFigure } from "../utils/drawFigure.ts";
+import { useCanvasImage } from "../hooks/useCanvasImage.ts";
 
 const Canvas = observer(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -16,25 +16,7 @@ const Canvas = observer(() => {
   const [modal, setModal] = useState(true);
   const params = useParams();
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    canvasState.setCanvas(canvas);
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    axios
-      .get(`http://localhost:5000/image?id=${params.id}`)
-      .then((response) => {
-        const img = new Image();
-        img.src = response.data;
-        img.onload = () => {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        };
-      });
-  }, []);
+  const { saveImage } = useCanvasImage(canvasRef.current, params.id);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -86,11 +68,8 @@ const Canvas = observer(() => {
     if (!canvasRef.current) return;
 
     canvasState.pushToUndo(canvasRef.current.toDataURL());
-    axios
-      .post(`http://localhost:5000/image?id=${params.id}`, {
-        img: canvasRef.current.toDataURL(),
-      })
-      .then((response) => console.log(response.data));
+
+    saveImage();
   };
 
   const connectHandler = () => {
