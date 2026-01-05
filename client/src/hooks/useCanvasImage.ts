@@ -1,12 +1,18 @@
 import axios from "axios";
 import { useEffect } from "react";
+import canvasState from "../store/canvasState.ts";
 
 export const useCanvasImage = (
-  canvas: HTMLCanvasElement | null,
+  canvasRef: React.RefObject<HTMLCanvasElement | null>,
   sessionId: string | undefined
 ) => {
   useEffect(() => {
-    if (!canvas || !sessionId) return;
+    if (!canvasRef || !sessionId) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    canvasState.setCanvas(canvas);
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -25,11 +31,12 @@ export const useCanvasImage = (
     } catch (e) {
       console.log("Ошибка получения изображения:", e);
     }
-  }, [sessionId]);
+  }, [canvasRef.current, sessionId]);
 
   const saveImage = () => {
+    const canvas = canvasRef.current;
     if (!canvas) throw Error("Не удалось получить канвас");
-
+    if (!canvasRef || !sessionId) return;
     try {
       axios
         .post(`http://localhost:5000/image?id=${sessionId}`, {

@@ -11,7 +11,7 @@ import Line from "../tools/Line.ts";
 type ToolConstructor = new (
   canvas: HTMLCanvasElement,
   socket: WebSocket,
-  id: number
+  id: string
 ) => Brush | Rect | Circle | Line;
 
 const Toolbar = () => {
@@ -34,6 +34,7 @@ const Toolbar = () => {
 
   const chooseToolHandler = (ToolClass: ToolConstructor) => {
     const { canvas, socket, sessionId } = canvasState;
+    console.log(canvas);
     if (!canvas || !socket || !sessionId) return;
 
     toolState.setTool(new ToolClass(canvas, socket, sessionId));

@@ -16,13 +16,15 @@ const Canvas = observer(() => {
   const [modal, setModal] = useState(true);
   const params = useParams();
 
-  const { saveImage } = useCanvasImage(canvasRef.current, params.id);
+  const { saveImage } = useCanvasImage(canvasRef, params.id);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     if (canvasState.username && params.id) {
+      console.log(canvasState);
+
       const socket = new WebSocket("ws://localhost:5000/");
       canvasState.setSocket(socket);
       canvasState.setSessionId(params.id);
