@@ -4,16 +4,13 @@ import { observer } from "mobx-react-lite";
 import canvasState from "../store/canvasState.ts";
 import Brush from "../tools/Brush.ts";
 import toolState from "../store/toolState.ts";
-import { Button, Modal } from "react-bootstrap";
-import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { drawFigure } from "../utils/drawFigure.ts";
 import { useCanvasImage } from "../hooks/useCanvasImage.ts";
+import ModalWindow from "./ModalWindow.tsx";
 
 const Canvas = observer(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const usernameRef = useRef<HTMLInputElement>(null);
-  const [modal, setModal] = useState(true);
   const params = useParams();
 
   const { saveImage } = useCanvasImage(canvasRef, params.id);
@@ -74,27 +71,9 @@ const Canvas = observer(() => {
     saveImage();
   };
 
-  const connectHandler = () => {
-    if (!usernameRef.current) return;
-    canvasState.setUsername(usernameRef.current.value);
-    setModal(false);
-  };
-
   return (
     <div className="canvas">
-      <Modal show={modal} onHide={() => {}}>
-        <Modal.Header>
-          <Modal.Title>Введите ваше имя</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <input type="text" ref={usernameRef} />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => connectHandler()}>
-            Войти
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <ModalWindow />
       <canvas
         onMouseDown={() => mouseDownHandler()}
         ref={canvasRef}
