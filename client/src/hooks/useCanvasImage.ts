@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import canvasState from "../store/canvasState.ts";
 
 export const useCanvasImage = (
@@ -33,7 +33,7 @@ export const useCanvasImage = (
     }
   }, [canvasRef.current, sessionId]);
 
-  const saveImage = () => {
+  const saveImage = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) throw Error("Не удалось получить канвас");
     if (!canvasRef || !sessionId) return;
@@ -46,7 +46,7 @@ export const useCanvasImage = (
     } catch (e) {
       console.log("Ошибка сохранения изображения:", e);
     }
-  };
+  }, [sessionId]);
 
   return { saveImage };
 };
