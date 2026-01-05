@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { drawFigure } from "../utils/drawFigure.ts";
 import { useCanvasImage } from "../hooks/useCanvasImage.ts";
 import ModalWindow from "./ModalWindow.tsx";
+import { useWebsocket } from "../hooks/useWebsocket.ts";
 
 const Canvas = observer(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -15,53 +16,55 @@ const Canvas = observer(() => {
 
   const { saveImage } = useCanvasImage(canvasRef, params.id);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+  useWebsocket(canvasRef, params.id);
 
-    if (canvasState.username && params.id) {
-      console.log(canvasState);
+  // useEffect(() => {
+  //   const canvas = canvasRef.current;
+  //   if (!canvas) return;
 
-      const socket = new WebSocket("ws://localhost:5000/");
-      canvasState.setSocket(socket);
-      canvasState.setSessionId(params.id);
-      toolState.setTool(new Brush(canvas, socket, params.id));
-      socket.onopen = () => {
-        console.log("Подключение установлено");
+  //   if (canvasState.username && params.id) {
+  //     console.log(canvasState);
 
-        socket.send(
-          JSON.stringify({
-            id: params.id,
-            username: canvasState.username,
-            method: "connection",
-          })
-        );
-      };
+  //     const socket = new WebSocket("ws://localhost:5000/");
+  //     canvasState.setSocket(socket);
+  //     canvasState.setSessionId(params.id);
+  //     toolState.setTool(new Brush(canvas, socket, params.id));
+  //     socket.onopen = () => {
+  //       console.log("Подключение установлено");
 
-      socket.onmessage = (event) => {
-        let msg = JSON.parse(event.data);
-        switch (msg.method) {
-          case "connection":
-            console.log(`Пользователь ${msg.username} подключился`);
-            break;
-          case "draw":
-            drawHandler(msg);
-            break;
-        }
-      };
-    }
-  }, [canvasState.username]);
+  //       socket.send(
+  //         JSON.stringify({
+  //           id: params.id,
+  //           username: canvasState.username,
+  //           method: "connection",
+  //         })
+  //       );
+  //     };
 
-  const drawHandler = (msg: any) => {
-    const figure = msg.figure;
+  //     socket.onmessage = (event) => {
+  //       let msg = JSON.parse(event.data);
+  //       switch (msg.method) {
+  //         case "connection":
+  //           console.log(`Пользователь ${msg.username} подключился`);
+  //           break;
+  //         case "draw":
+  //           drawHandler(msg);
+  //           break;
+  //       }
+  //     };
+  //   }
+  // }, [canvasState.username]);
 
-    if (!canvasRef.current) return;
-    const ctx = canvasRef.current.getContext("2d");
+  // const drawHandler = (msg: any) => {
+  //   const figure = msg.figure;
 
-    if (!ctx) return;
+  //   if (!canvasRef.current) return;
+  //   const ctx = canvasRef.current.getContext("2d");
 
-    drawFigure(ctx, figure);
-  };
+  //   if (!ctx) return;
+
+  //   drawFigure(ctx, figure);
+  // };
 
   const mouseDownHandler = () => {
     if (!canvasRef.current) return;
