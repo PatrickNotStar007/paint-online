@@ -1,4 +1,5 @@
 import Brush from "../tools/Brush.ts";
+import Circle from "../tools/Circle.ts";
 import Rect from "../tools/Rect.ts";
 import { Figure, ToolTypes } from "../types/figures.ts";
 
@@ -14,6 +15,17 @@ export const drawFigure = (ctx: CanvasRenderingContext2D, figure: Figure) => {
         figure.y,
         figure.width,
         figure.height,
+        figure.color
+      );
+      break;
+    case ToolTypes.CIRCLE:
+      Circle.staticDraw(
+        ctx,
+        figure.x,
+        figure.y,
+        figure.radius,
+        figure.startAngle,
+        figure.endAngle,
         figure.color
       );
       break;

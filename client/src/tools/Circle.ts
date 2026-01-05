@@ -4,6 +4,7 @@ export default class Circle extends Tool {
   protected mouseDown = false;
   protected startX = 0;
   protected startY = 0;
+  protected radius = 0;
   protected saved = "";
 
   constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
@@ -19,6 +20,23 @@ export default class Circle extends Tool {
 
   mouseUpHandler(e: MouseEvent) {
     this.mouseDown = false;
+    console.log("ra" + this.radius);
+
+    this.socket.send(
+      JSON.stringify({
+        method: "draw",
+        id: this.id,
+        figure: {
+          type: "circle",
+          x: this.startX,
+          y: this.startY,
+          radius: this.radius,
+          startAngle: 0,
+          endAngle: Math.PI * 2,
+          color: this.ctx.fillStyle,
+        },
+      })
+    );
   }
 
   mouseDownHandler(e: MouseEvent) {
@@ -36,12 +54,12 @@ export default class Circle extends Tool {
       let currentX = e.pageX - target.offsetLeft;
       let currentY = e.pageY - target.offsetTop;
 
-      const radius = Math.sqrt(
+      this.radius = Math.sqrt(
         Math.pow(currentX - this.startX, 2) +
           Math.pow(currentY - this.startY, 2)
       );
 
-      this.draw(this.startX, this.startY, radius, 0, Math.PI * 2);
+      this.draw(this.startX, this.startY, this.radius, 0, Math.PI * 2);
     }
   }
 
@@ -62,5 +80,21 @@ export default class Circle extends Tool {
       this.ctx.fill();
       this.ctx.stroke();
     };
+  }
+
+  static staticDraw(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    radius: number,
+    startAngle: number,
+    endAngle: number,
+    color: string
+  ) {
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(x, y, radius, startAngle, endAngle);
+    ctx.fill();
+    ctx.stroke();
   }
 }

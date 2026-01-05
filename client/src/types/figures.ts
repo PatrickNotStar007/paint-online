@@ -1,6 +1,7 @@
 export enum ToolTypes {
   BRUSH = "brush",
   RECT = "rect",
+  CIRCLE = "circle",
   FINISH = "finish",
 }
 
@@ -21,8 +22,16 @@ export interface RectFigure extends BaseFigure {
   color: string;
 }
 
+export interface CircleFigute extends BaseFigure {
+  type: ToolTypes.CIRCLE;
+  radius: number;
+  startAngle: number;
+  endAngle: number;
+  color: string;
+}
+
 export interface FinishFigure extends BaseFigure {
   type: ToolTypes.FINISH;
 }
 
-export type Figure = BrushFigure | RectFigure | FinishFigure;
+export type Figure = BrushFigure | RectFigure | FinishFigure | CircleFigute;
