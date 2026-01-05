@@ -51,6 +51,15 @@ export const useWebsocket = (
             break;
         }
       };
+
+      return () => {
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.close();
+        }
+
+        socket.onopen = null;
+        socket.onmessage = null;
+      };
     }
   }, [canvasState.username]);
 };
