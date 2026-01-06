@@ -1,5 +1,6 @@
 import Brush from "../tools/Brush.ts";
 import Circle from "../tools/Circle.ts";
+import Eraser from "../tools/Eraser.ts";
 import Rect from "../tools/Rect.ts";
 import { Figure, ToolTypes } from "../types/figures.ts";
 
@@ -19,6 +20,7 @@ export const drawFigure = (ctx: CanvasRenderingContext2D, figure: Figure) => {
         figure.strokeColor,
         figure.lineWidth
       );
+      ctx.beginPath();
       break;
     case ToolTypes.CIRCLE:
       Circle.staticDraw(
@@ -32,6 +34,9 @@ export const drawFigure = (ctx: CanvasRenderingContext2D, figure: Figure) => {
         figure.strokeColor,
         figure.lineWidth
       );
+      break;
+    case ToolTypes.ERASER:
+      Brush.draw(ctx, figure.x, figure.y, "white", figure.lineWidth);
       break;
     case ToolTypes.FINISH:
       ctx.beginPath();

@@ -12,7 +12,7 @@ type ToolConstructor = new (
   canvas: HTMLCanvasElement,
   socket: WebSocket,
   id: string
-) => Brush | Rect | Circle | Line;
+) => Brush | Rect | Circle | Line | Eraser;
 
 const Toolbar = () => {
   const changeColor = (e: React.ChangeEvent<HTMLInputElement>) => {
