@@ -28,7 +28,9 @@ export const drawFigure = (ctx: CanvasRenderingContext2D, figure: Figure) => {
         figure.radius,
         figure.startAngle,
         figure.endAngle,
-        figure.color
+        figure.fillColor,
+        figure.strokeColor,
+        figure.lineWidth
       );
       break;
     case ToolTypes.FINISH:

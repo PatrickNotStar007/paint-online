@@ -34,7 +34,9 @@ export default class Circle extends Tool {
           radius: this.radius,
           startAngle: 0,
           endAngle: Math.PI * 2,
-          color: this.ctx.fillStyle,
+          fillColor: this.ctx.fillStyle,
+          strokeColor: this.ctx.strokeStyle,
+          lineWidth: this.ctx.lineWidth,
         },
       })
     );
@@ -90,12 +92,26 @@ export default class Circle extends Tool {
     radius: number,
     startAngle: number,
     endAngle: number,
-    color: string
+    color: string,
+    strokeColor: string,
+    lineWidth: number
   ) {
+    const tempStyle = {
+      fillStyle: ctx.fillStyle,
+      strokeStyle: ctx.strokeStyle,
+      lineWidth: ctx.lineWidth,
+    };
+
     ctx.fillStyle = color;
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = lineWidth;
     ctx.beginPath();
     ctx.arc(x, y, radius, startAngle, endAngle);
     ctx.fill();
     ctx.stroke();
+
+    ctx.fillStyle = tempStyle.fillStyle;
+    ctx.strokeStyle = tempStyle.strokeStyle;
+    ctx.lineWidth = tempStyle.lineWidth;
   }
 }
