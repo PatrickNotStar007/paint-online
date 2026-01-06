@@ -3,6 +3,7 @@ export enum ToolTypes {
   RECT = "rect",
   CIRCLE = "circle",
   ERASER = "eraser",
+  LINE = "line",
   FINISH = "finish",
 }
 
@@ -41,9 +42,16 @@ export interface EraserFigure extends BaseFigure {
   type: ToolTypes.ERASER;
 }
 
+export interface LineFigure extends BaseFigure {
+  type: ToolTypes.LINE;
+  currentX: number;
+  currentY: number;
+}
+
 export type Figure =
   | BrushFigure
   | RectFigure
-  | FinishFigure
   | CircleFigure
-  | EraserFigure;
+  | EraserFigure
+  | LineFigure
+  | FinishFigure;
