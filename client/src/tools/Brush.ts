@@ -46,7 +46,8 @@ export default class Brush extends Tool {
             type: ToolTypes.BRUSH,
             x: e.pageX - target.offsetLeft,
             y: e.pageY - target.offsetTop,
-            color: this.ctx.fillStyle,
+            strokeColor: this.ctx.fillStyle,
+            lineWidth: this.ctx.lineWidth,
           },
         })
       );
@@ -57,10 +58,21 @@ export default class Brush extends Tool {
     ctx: CanvasRenderingContext2D,
     x: number,
     y: number,
-    color: string
+    strokeColor: string,
+    lineWidth: number
   ) {
+    const tempStyle = {
+      strokeStyle: ctx.strokeStyle,
+      lineWidth: ctx.lineWidth,
+    };
+
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = lineWidth;
     ctx.lineTo(x, y);
-    ctx.strokeStyle = color;
+    ctx.strokeStyle = strokeColor;
     ctx.stroke();
+
+    ctx.strokeStyle = tempStyle.strokeStyle;
+    ctx.lineWidth = tempStyle.lineWidth;
   }
 }
