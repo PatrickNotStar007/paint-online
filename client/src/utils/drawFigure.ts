@@ -6,7 +6,7 @@ import { Figure, ToolTypes } from "../types/figures.ts";
 export const drawFigure = (ctx: CanvasRenderingContext2D, figure: Figure) => {
   switch (figure.type) {
     case ToolTypes.BRUSH:
-      Brush.draw(ctx, figure.x, figure.y);
+      Brush.draw(ctx, figure.x, figure.y, figure.color);
       break;
     case ToolTypes.RECT:
       Rect.staticDraw(

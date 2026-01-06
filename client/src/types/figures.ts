@@ -9,6 +9,7 @@ export interface BaseFigure {
   type: ToolTypes;
   x: number;
   y: number;
+  color: string;
 }
 
 export interface BrushFigure extends BaseFigure {
