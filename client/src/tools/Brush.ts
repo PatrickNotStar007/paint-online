@@ -1,3 +1,4 @@
+import { ToolTypes } from "../types/figures.ts";
 import Tool from "./Tool.ts";
 
 export default class Brush extends Tool {
@@ -42,7 +43,7 @@ export default class Brush extends Tool {
           method: "draw",
           id: this.id,
           figure: {
-            type: "brush",
+            type: ToolTypes.BRUSH,
             x: e.pageX - target.offsetLeft,
             y: e.pageY - target.offsetTop,
             color: this.ctx.fillStyle,

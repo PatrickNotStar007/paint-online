@@ -1,3 +1,4 @@
+import { ToolTypes } from "../types/figures.ts";
 import Tool from "./Tool.ts";
 
 export default class Rect extends Tool {
@@ -26,7 +27,7 @@ export default class Rect extends Tool {
         method: "draw",
         id: this.id,
         figure: {
-          type: "rect",
+          type: ToolTypes.RECT,
           x: this.startX,
           y: this.startY,
           width: this.width,

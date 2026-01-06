@@ -1,3 +1,4 @@
+import { ToolTypes } from "../types/figures.ts";
 import Tool from "./Tool.ts";
 
 export default class Circle extends Tool {
@@ -27,7 +28,7 @@ export default class Circle extends Tool {
         method: "draw",
         id: this.id,
         figure: {
-          type: "circle",
+          type: ToolTypes.CIRCLE,
           x: this.startX,
           y: this.startY,
           radius: this.radius,
