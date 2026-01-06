@@ -6,7 +6,7 @@ import { Figure, ToolTypes } from "../types/figures.ts";
 export const drawFigure = (ctx: CanvasRenderingContext2D, figure: Figure) => {
   switch (figure.type) {
     case ToolTypes.BRUSH:
-      Brush.draw(ctx, figure.x, figure.y, figure.color);
+      Brush.draw(ctx, figure.x, figure.y, figure.fillColor);
       break;
     case ToolTypes.RECT:
       Rect.staticDraw(
@@ -15,7 +15,8 @@ export const drawFigure = (ctx: CanvasRenderingContext2D, figure: Figure) => {
         figure.y,
         figure.width,
         figure.height,
-        figure.color
+        figure.fillColor,
+        figure.strokeColor
       );
       break;
     case ToolTypes.CIRCLE:

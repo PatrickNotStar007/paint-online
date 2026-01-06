@@ -9,7 +9,8 @@ export interface BaseFigure {
   type: ToolTypes;
   x: number;
   y: number;
-  color: string;
+  fillColor: string;
+  strokeColor: string;
 }
 
 export interface BrushFigure extends BaseFigure {
@@ -20,7 +21,6 @@ export interface RectFigure extends BaseFigure {
   type: ToolTypes.RECT;
   width: number;
   height: number;
-  color: string;
 }
 
 export interface CircleFigute extends BaseFigure {
