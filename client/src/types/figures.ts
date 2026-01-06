@@ -11,6 +11,7 @@ export interface BaseFigure {
   y: number;
   fillColor: string;
   strokeColor: string;
+  lineWidth: number;
 }
 
 export interface BrushFigure extends BaseFigure {

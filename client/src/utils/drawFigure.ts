@@ -16,7 +16,8 @@ export const drawFigure = (ctx: CanvasRenderingContext2D, figure: Figure) => {
         figure.width,
         figure.height,
         figure.fillColor,
-        figure.strokeColor
+        figure.strokeColor,
+        figure.lineWidth
       );
       break;
     case ToolTypes.CIRCLE:
