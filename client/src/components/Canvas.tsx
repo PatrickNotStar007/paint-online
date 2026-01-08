@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import "../styles/canvas.scss";
 import { observer } from "mobx-react-lite";
 import canvasState from "../store/canvasState.ts";
@@ -20,6 +20,10 @@ const Canvas = observer(() => {
 
     canvasState.pushToUndo(canvasRef.current.toDataURL());
 
+    // saveImage();
+  };
+
+  const mouseUpHandler = () => {
     saveImage();
   };
 
@@ -28,6 +32,7 @@ const Canvas = observer(() => {
       <ModalWindow />
       <canvas
         onMouseDown={() => mouseDownHandler()}
+        onMouseUp={() => mouseUpHandler()}
         ref={canvasRef}
         width={600}
         height={400}

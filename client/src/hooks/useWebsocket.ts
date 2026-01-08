@@ -15,7 +15,6 @@ export const useWebsocket = (
     const ctx = canvasRef.current.getContext("2d");
 
     if (!ctx) return;
-    console.log(figure);
 
     drawFigure(ctx, figure);
   };

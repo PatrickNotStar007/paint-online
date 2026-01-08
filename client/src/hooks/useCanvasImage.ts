@@ -38,11 +38,10 @@ export const useCanvasImage = (
     if (!canvas) throw Error("Не удалось получить канвас");
     if (!canvasRef || !sessionId) return;
     try {
-      axios
-        .post(`http://localhost:5000/image?id=${sessionId}`, {
-          img: canvas.toDataURL(),
-        })
-        .then((response) => console.log(response.data));
+      axios.post(`http://localhost:5000/image?id=${sessionId}`, {
+        img: canvas.toDataURL(),
+      });
+      // .then((response) => console.log(response.data));
     } catch (e) {
       console.log("Ошибка сохранения изображения:", e);
     }
