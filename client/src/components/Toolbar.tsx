@@ -7,6 +7,7 @@ import Rect from "../tools/Rect.ts";
 import Circle from "../tools/Circle.ts";
 import Eraser from "../tools/Eraser.ts";
 import Line from "../tools/Line.ts";
+import { restoreTypes } from "../types/restores.ts";
 
 type ToolConstructor = new (
   canvas: HTMLCanvasElement,
@@ -38,6 +39,34 @@ const Toolbar = () => {
     if (!canvas || !socket || !sessionId) return;
 
     toolState.setTool(new ToolClass(canvas, socket, sessionId));
+  };
+
+  const undoHandler = () => {
+    const { canvas, socket, sessionId } = canvasState;
+    if (!canvas || !socket || !sessionId) return;
+    socket.send(
+      JSON.stringify({
+        method: "restore",
+        id: sessionId,
+        restore: {
+          type: restoreTypes.Undo,
+        },
+      })
+    );
+  };
+
+  const redoHandler = () => {
+    const { canvas, socket, sessionId } = canvasState;
+    if (!canvas || !socket || !sessionId) return;
+    socket.send(
+      JSON.stringify({
+        method: "restore",
+        id: sessionId,
+        restore: {
+          type: restoreTypes.Redo,
+        },
+      })
+    );
   };
 
   return (
@@ -73,12 +102,14 @@ const Toolbar = () => {
       />
       <button
         className="toolbar__btn undo"
-        onClick={() => canvasState.undo()}
+        onClick={() => undoHandler()}
+        // onClick={() => canvasState.undo()}
       ></button>
 
       <button
         className="toolbar__btn redo"
-        onClick={() => canvasState.redo()}
+        // onClick={() => canvasState.redo()}
+        onClick={() => redoHandler()}
       ></button>
 
       <button className="toolbar__btn save" onClick={() => download()}></button>

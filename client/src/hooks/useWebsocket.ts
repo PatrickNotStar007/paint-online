@@ -3,6 +3,7 @@ import canvasState from "../store/canvasState.ts";
 import Brush from "../tools/Brush.ts";
 import toolState from "../store/toolState.ts";
 import { drawFigure } from "../utils/drawFigure.ts";
+import { restoreFigure } from "../utils/restoreFigure.ts";
 
 export const useWebsocket = (
   canvasRef: React.RefObject<HTMLCanvasElement | null>,
@@ -15,8 +16,14 @@ export const useWebsocket = (
     const ctx = canvasRef.current.getContext("2d");
 
     if (!ctx) return;
-
     drawFigure(ctx, figure);
+  };
+
+  const restoreHandler = (msg: any) => {
+    if (!canvasRef.current) return;
+    const ctx = canvasRef.current.getContext("2d");
+    if (!ctx) return;
+    restoreFigure(ctx, msg.restore);
   };
 
   useEffect(() => {
@@ -42,12 +49,16 @@ export const useWebsocket = (
 
       socket.onmessage = (event) => {
         let msg = JSON.parse(event.data);
+        console.log("useWs: " + msg.method, "full message:", msg);
         switch (msg.method) {
           case "connection":
             console.log(`Пользователь ${msg.username} подключился`);
             break;
           case "draw":
             drawHandler(msg);
+            break;
+          case "restore":
+            restoreHandler(msg);
             break;
         }
       };

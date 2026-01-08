@@ -16,6 +16,7 @@ export class WebSocketController {
           this.connectionHandler(ws, msg);
           break;
         case "draw":
+        case "restore":
           this.broadcastConnection(ws, msg);
           break;
       }

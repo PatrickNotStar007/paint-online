@@ -29,7 +29,7 @@ export type Figure = BrushFigure | RectFigure | FinishFigure;
 
 export interface UserRequest extends Request {
   id: string;
-  method: "connection" | "draw";
+  method: "connection" | "draw" | "restore";
   userName?: string;
   figure?: Figure;
 }
