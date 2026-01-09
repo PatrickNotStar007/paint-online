@@ -24,7 +24,7 @@ export const useWebsocket = (
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
-    restoreFigure(ctx, msg.restore);
+    restoreFigure(ctx, msg.restoreType);
   };
 
   useEffect(() => {

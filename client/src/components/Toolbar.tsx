@@ -48,9 +48,7 @@ const Toolbar = () => {
       JSON.stringify({
         method: "restore",
         id: sessionId,
-        restore: {
-          type: restoreTypes.Undo,
-        },
+        restoreType: restoreTypes.Undo,
       })
     );
   };
@@ -62,9 +60,7 @@ const Toolbar = () => {
       JSON.stringify({
         method: "restore",
         id: sessionId,
-        restore: {
-          type: restoreTypes.Redo,
-        },
+        restoreType: restoreTypes.Redo,
       })
     );
   };

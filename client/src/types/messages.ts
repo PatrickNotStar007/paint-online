@@ -10,9 +10,5 @@ export interface DrawMessage extends BasicMessage {
 }
 
 export interface RestoreMessage extends BasicMessage {
-  restore: RestoreType;
-}
-
-interface RestoreType {
-  type: string;
+  restoreType: string;
 }

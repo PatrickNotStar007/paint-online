@@ -1,8 +1,11 @@
 import canvasState from "../store/canvasState.ts";
 import { restoreTypes } from "../types/restores.ts";
 
-export const restoreFigure = (ctx: CanvasRenderingContext2D, restore: any) => {
-  switch (restore.type) {
+export const restoreFigure = (
+  ctx: CanvasRenderingContext2D,
+  restoreType: string
+) => {
+  switch (restoreType) {
     case restoreTypes.Undo:
       undoHandler(ctx);
       break;
@@ -40,8 +43,6 @@ const undoHandler = (ctx: CanvasRenderingContext2D) => {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       };
     }
-  } else {
-    // ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 };
 
