@@ -36,10 +36,8 @@ const Toolbar = () => {
 
   const chooseToolHandler = (ToolClass: ToolConstructor) => {
     const { canvas, socket, sessionId } = canvasState;
-    console.log(canvas);
     if (!canvas || !socket || !sessionId) return;
-    let a = new ToolClass(canvas, socket, sessionId);
-    toolState.setTool(a);
+    toolState.setTool(new ToolClass(canvas, socket, sessionId));
   };
 
   const undoHandler = () => {
