@@ -1,14 +1,15 @@
 import type { UserRequest } from "../../shared/types";
 import type { ExtendedWebSocket } from "../types/types";
+import type { Server as WebSocketServer } from "ws";
 
 export class WebSocketController {
-  private aWss: any;
+  private aWss: WebSocketServer;
 
-  constructor(aWss: any) {
+  constructor(aWss: WebSocketServer) {
     this.aWss = aWss;
   }
 
-  messageHandler(ws: any, rawMsg: string) {
+  messageHandler(ws: ExtendedWebSocket, rawMsg: string) {
     try {
       const msg: UserRequest = JSON.parse(rawMsg);
       switch (msg.method) {
@@ -31,7 +32,7 @@ export class WebSocketController {
   };
 
   private broadcastConnection = (ws: ExtendedWebSocket, msg: UserRequest) => {
-    this.aWss.clients.forEach((client: any) => {
+    this.aWss.clients.forEach((client: ExtendedWebSocket) => {
       if (client.id === msg.id) {
         client.send(JSON.stringify(msg));
       }
