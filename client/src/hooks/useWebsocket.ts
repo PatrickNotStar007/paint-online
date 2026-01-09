@@ -4,7 +4,7 @@ import Brush from "../tools/Brush.ts";
 import toolState from "../store/toolState.ts";
 import { drawFigure } from "../utils/drawFigure.ts";
 import { restoreFigure } from "../utils/restoreFigure.ts";
-import { DrawMessage } from "../types/messages.ts";
+import { DrawMessage, RestoreMessage } from "../types/messages.ts";
 
 export const useWebsocket = (
   canvasRef: React.RefObject<HTMLCanvasElement | null>,
@@ -20,7 +20,7 @@ export const useWebsocket = (
     drawFigure(ctx, figure);
   };
 
-  const restoreHandler = (msg: any) => {
+  const restoreHandler = (msg: RestoreMessage) => {
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
