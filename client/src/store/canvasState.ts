@@ -9,7 +9,7 @@ class CanvasState {
     }
   > = new Map();
 
-  tool: any = null; // TODO: исправить
+  // tool: any = null; // TODO: исправить
   socket: WebSocket | null = null;
   sessionId: string | null = null;
   canvas: HTMLCanvasElement | null = null;

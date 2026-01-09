@@ -8,12 +8,13 @@ import Circle from "../tools/Circle.ts";
 import Eraser from "../tools/Eraser.ts";
 import Line from "../tools/Line.ts";
 import { restoreTypes } from "../types/restores.ts";
+import { ITool } from "../types/tool.ts";
 
 type ToolConstructor = new (
   canvas: HTMLCanvasElement,
   socket: WebSocket,
   id: string
-) => Brush | Rect | Circle | Line | Eraser;
+) => ITool;
 
 const Toolbar = () => {
   const changeColor = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,8 +38,8 @@ const Toolbar = () => {
     const { canvas, socket, sessionId } = canvasState;
     console.log(canvas);
     if (!canvas || !socket || !sessionId) return;
-
-    toolState.setTool(new ToolClass(canvas, socket, sessionId));
+    let a = new ToolClass(canvas, socket, sessionId);
+    toolState.setTool(a);
   };
 
   const undoHandler = () => {
@@ -99,12 +100,10 @@ const Toolbar = () => {
       <button
         className="toolbar__btn undo"
         onClick={() => undoHandler()}
-        // onClick={() => canvasState.undo()}
       ></button>
 
       <button
         className="toolbar__btn redo"
-        // onClick={() => canvasState.redo()}
         onClick={() => redoHandler()}
       ></button>
 

@@ -1,4 +1,6 @@
-export default class Tool {
+import { ITool } from "../types/tool";
+
+export default abstract class Tool implements ITool {
   protected canvas: HTMLCanvasElement;
   protected socket: WebSocket;
   protected id: string;

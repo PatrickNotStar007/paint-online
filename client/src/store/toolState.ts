@@ -1,27 +1,27 @@
 import { makeAutoObservable } from "mobx";
+import { ITool } from "../types/tool";
 
 class ToolState {
-  tool: any = null; // TODO: исправить
+  tool: ITool | null = null;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  setTool(tool: any) {
-    // TODO: исправить
+  setTool(tool: ITool) {
     this.tool = tool;
   }
 
   setFillColor(color: string) {
-    this.tool.fillColor = color;
+    if (this.tool) this.tool.fillColor = color;
   }
 
   setStrokeColor(color: string) {
-    this.tool.strokeColor = color;
+    if (this.tool) this.tool.strokeColor = color;
   }
 
   setLineWidth(width: number) {
-    this.tool.lineWidth = width;
+    if (this.tool) this.tool.lineWidth = width;
   }
 }
 
