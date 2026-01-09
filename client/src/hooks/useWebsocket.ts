@@ -49,7 +49,6 @@ export const useWebsocket = (
 
       socket.onmessage = (event) => {
         let msg = JSON.parse(event.data);
-        console.log("useWs: " + msg.method, "full message:", msg);
         switch (msg.method) {
           case "connection":
             console.log(`Пользователь ${msg.username} подключился`);
