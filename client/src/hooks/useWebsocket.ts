@@ -4,12 +4,13 @@ import Brush from "../tools/Brush.ts";
 import toolState from "../store/toolState.ts";
 import { drawFigure } from "../utils/drawFigure.ts";
 import { restoreFigure } from "../utils/restoreFigure.ts";
+import { DrawMessage } from "../types/messages.ts";
 
 export const useWebsocket = (
   canvasRef: React.RefObject<HTMLCanvasElement | null>,
   sessionId: string | undefined
 ) => {
-  const drawHandler = (msg: any) => {
+  const drawHandler = (msg: DrawMessage) => {
     const figure = msg.figure;
 
     if (!canvasRef.current) return;
